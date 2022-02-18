@@ -112,5 +112,37 @@ namespace EmployeePayrollService
                 this.connection.Close();
             }
         }
+        //Method to Update BasePay for a Employee
+        public void UpdateBasicPay(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("spUpdateEmployeeBasicPay", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
+                    command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
+                    //Open Connection of Database
+                    this.connection.Open();
+                    //Executes Sql statement to Update in Db.
+                    var rows = command.ExecuteNonQuery();
+                    //Close Connection of database
+                    this.connection.Close();
+                    if (rows != 0)
+                        Console.WriteLine("Updated in Db");
+                    else
+                        Console.WriteLine(rows);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }

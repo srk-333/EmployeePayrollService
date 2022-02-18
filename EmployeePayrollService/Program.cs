@@ -13,7 +13,7 @@ namespace EmployeePayrollService
         {
             EmployeeRepository employeeRepository = new EmployeeRepository();    
             EmployeeModel employeeModel = new EmployeeModel();
-            employeeModel.EmployeeId = 4;
+            Console.WriteLine("Add a Employee in DATABASE");
             employeeModel.EmployeeName = "Vikash";
             employeeModel.PhoneNumber = 89675423;
             employeeModel.Address = "Buxar";
@@ -27,6 +27,11 @@ namespace EmployeePayrollService
             employeeModel.City = "Patna";
             employeeModel.Country = "India";
             employeeRepository.AddEmployee(employeeModel);
+            Console.WriteLine("Update Employee Basic pay");
+            employeeModel.EmployeeName = "Saurav";
+            employeeModel.BasicPay = 300000;
+            employeeRepository.UpdateBasicPay(employeeModel);
+            Console.WriteLine("Get All Records from DB");
             employeeRepository.GetAllRecords();
         }
         //Entry Point
