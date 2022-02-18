@@ -31,6 +31,10 @@ namespace EmployeePayrollService
             employeeModel.EmployeeName = "Saurav";
             employeeModel.BasicPay = 300000;
             employeeRepository.UpdateBasicPay(employeeModel);
+            Console.WriteLine("Update Employee Basic pay using Prepared Statement");
+            employeeModel.EmployeeName = "Saurav";
+            employeeModel.BasicPay = 400000;
+            employeeRepository.UpdateBasicPayByPreparedStatement(employeeModel);
             Console.WriteLine("Get All Records from DB");
             employeeRepository.GetAllRecords();
         }
