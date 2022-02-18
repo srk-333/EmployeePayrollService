@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,10 @@ namespace EmployeePayrollService
 {
     class EmployeeRepository
     {
+        //SqlServer Connection String
         public static string connectionString = "Data Source=SAURAVSHARMA;Initial Catalog=EmployeePayrollService;Persist Security Info=True;User ID=saurav;Password=Saurav78#$";
         readonly SqlConnection connection = new SqlConnection(connectionString);
+        //Method to Get All Records from DB.
         public void GetAllRecords()
         {
             try
@@ -21,10 +24,12 @@ namespace EmployeePayrollService
                     string query = @"SELECT EmployeeId, EmployeeName,PhoneNumber,Address,Department,Gender,BasicPay,Deductions
                                             ,TaxablePay,Tax,NetPay,StartDate,City,Country FROM Employee_Payroll;";
                     SqlCommand cmd = new SqlCommand(query, connection);
+                    //Open Connection of Database
                     this.connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.HasRows)
                     {
+                        //Read Records from DB Rows Wise.
                         while (reader.Read())
                         {
                             model.EmployeeId = reader.GetInt32(0);
@@ -49,6 +54,7 @@ namespace EmployeePayrollService
                     else
                         Console.WriteLine("No Records in Database");
                     reader.Close();
+                    //Close Connection of database
                     this.connection.Close();
                 }
             }
@@ -58,6 +64,51 @@ namespace EmployeePayrollService
             }
             finally
             {
+                //Close Connection of database
+                this.connection.Close();
+            }
+        }
+        //Method to add a employee detail in database using stored Procedure
+        public void AddEmployee(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("spAddEmployeeDetails", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
+                    command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                    command.Parameters.AddWithValue("@Address", model.Address);
+                    command.Parameters.AddWithValue("@Department", model.Department);
+                    command.Parameters.AddWithValue("@Gender", model.Gender);
+                    command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
+                    command.Parameters.AddWithValue("@Deductions", model.Deductions);
+                    command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
+                    command.Parameters.AddWithValue("@Tax", model.Tax);
+                    command.Parameters.AddWithValue("@NetPay", model.NetPay);
+                    command.Parameters.AddWithValue("@StartDate", model.StartDate);
+                    command.Parameters.AddWithValue("@City", model.City);
+                    command.Parameters.AddWithValue("@Country", model.Country);
+                    //Open Connection of Database
+                    this.connection.Open();
+                    //Executes Sql statement and return no of rows affected.
+                    var rows = command.ExecuteNonQuery();
+                    //Close Connection of database
+                    this.connection.Close();
+                    if (rows != 0)
+                        Console.WriteLine("Inserted in DataBase");
+                    else
+                        Console.WriteLine(rows);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                //Close Connection of database
                 this.connection.Close();
             }
         }
