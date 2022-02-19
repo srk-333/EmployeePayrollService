@@ -39,6 +39,8 @@ namespace EmployeePayrollService
             employeeRepository.GetAllRecords();
             Console.WriteLine("Get Records in Specified date");
             employeeRepository.GetEmployeeDetailsByDate();
+            Console.WriteLine("Find SUM,MIN,MAX,AVG and COUNT from Database");
+            employeeRepository.DatabaseFunction();
         }
         //Entry Point
         static void Main(string[] args)
