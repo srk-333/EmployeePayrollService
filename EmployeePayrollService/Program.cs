@@ -37,12 +37,14 @@ namespace EmployeePayrollService
             employeeRepository.UpdateBasicPayByPreparedStatement(employeeModel);
             Console.WriteLine("Get All Records from DB");
             employeeRepository.GetAllRecords();
+            Console.WriteLine("Get Records in Specified date");
+            employeeRepository.GetEmployeeDetailsByDate();
         }
         //Entry Point
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Employee Payroll Service");
-            InvokeEmployeeRepo();
+            InvokeEmployeeRepo();        
             Console.ReadKey();
         }
     }
